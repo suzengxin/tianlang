@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>音乐_天狼云</title>
+	<!-- jQuery(Bootstrap的JavaScript插件需要引入jQuery，务必在bootstrap.min.js之前引入) -->
+	<script src="https://suzengxin.github.io/static/jquery-3.5.1.min.js"></script>
+	
+	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" data-integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" data-crossorigin="anonymous">
+	
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" data-integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" data-crossorigin="anonymous"></script>
+	
+	<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" data-integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" data-crossorigin="anonymous">
+	
+	<link href="https://suzengxin.github.io/static/common.css" rel='stylesheet' type='text/css' />
+	<script src="https://suzengxin.github.io/static/common.js"></script>
+
+	<!-- 图标 -->
+	<link rel="shortcut icon" href="https://suzengxin.github.io/images/favicon.ico">  
+	<link rel="Bookmark" href="https://suzengxin.github.io/images/favicon.ico">
+</head>
+
+<body>
+<div class="container-fluid">
+	<!-- 导航 -->
+	<div id="nav_load" class="navbar navbar-inverse" role="navigation" style="margin: 0px;"></div>
+
+	<div class="row">
+		<div class="col-xs-4 col-sm-3">
+			<nav class="navbar navbar-inverse" role="navigation" id="content">
+			  	<ul class="nav sidebar-nav">
+			  		<#list musics as music>
+			  			<li id="song_${music_index+1}">
+			  				<a href="#" class="music text-center" title="${music.name?replace('.mp3', '')}" onclick="music('song_${music_index+1}', '${music.url}')">
+								<#if music.name?replace('.mp3', '') ? length gt 13>
+									${music.name?replace('.mp3', '') ? substring(0, 13)}...
+								<#else>
+									${music.name?replace('.mp3', '')}
+								</#if>
+							</a>
+						</li>
+					</#list>
+				</ul>
+			</nav>
+		</div>
+		
+		<div class="col-xs-8 col-sm-5 col-sm-offset-1 ">
+			<div id="lyric_content" class="text-center">
+				<ul id="lyric" class="lead">
+					<li>歌词加载</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div id="left" class="hidden-xs col-sm-2 col-sm-offset-1">
+			<div id="logo">
+				<h1 class="text-center"><a href="#">天</a></h1>
+				<h1 class="text-center"><a href="#">狼</a></h1>
+				<h1 class="text-center"><a href="#">云</a></h1>
+				<h1 class="text-center"><a href="#"><span>音</span></a></h1>
+				<h1 class="text-center"><a href="#"><span>乐</span></a></h1>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row navbar-fixed-bottom">
+		<div class="col-xs-5 col-sm-4"></div>
+		<audio id="audio" controls="controls" autoplay='autoplay' loop="loop" class="col-xs-7 col-sm-5" onplay="music_onplay()" ontimeupdate="changeLrc(this)">
+			<source id="music" src="" type="audio/mpeg">
+		</audio>
+	</div>
+</div>
+
+<!-- loading -->
+<div class="modal fade" id="loading" tabindex="-1" data-backdrop='static'></div>
+
+</body>
+
+<style>
+	#loading{
+	    background: url(https://suzengxin.github.io/images/loading/loading_01.gif) no-repeat center center;
+	}
+
+	#audio{
+		outline: none;
+	}
+	
+	/* 定义滚动条样式 */
+	::-webkit-scrollbar {
+		width: 14px;
+		height: 14px;
+	}
+	 
+	::-webkit-scrollbar-track,
+	::-webkit-scrollbar-thumb {
+		border-radius: 999px;
+		border: 5px solid transparent;
+	}
+	 
+	::-webkit-scrollbar-track {
+		box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9) inset;
+	}
+	 
+	::-webkit-scrollbar-thumb {
+		min-height: 20px;
+		background-clip: content-box;
+		box-shadow: 0 0 0 5px rgba(0, 191, 255, 0.6) inset;
+	}
+	 
+	::-webkit-scrollbar-corner {
+		background: transparent;
+	}
+	
+	.song_active {
+		background-color: white;
+	}
+	
+	/* 歌词ul */
+	#lyric {
+	    width: 100%;
+	    top: 0;
+	    bottom: 0;
+	}
+	#lyric>li {
+	    overflow: hidden;
+	    color: #31c27c;
+	    background-color: rgba(0, 0, 0, 0.4);
+	}
+	/* 正在播放的那一句歌词 */
+	#lyric .lrc-play {
+	    color: red;
+	}
+	
+	#left {
+		background-color: rgba(0, 0, 0, 0.4);
+	}
+	
+	#logo {
+		position:relative;
+		overflow:hidden;
+		margin:auto;/*重要,IE兼容模式*/
+		height:500px;
+		top:50%;
+		margin-top:-250px;
+	}
+	
+	#logo>h1>a {
+		font-size: 2em;
+	}
+</style>
+
+<script type="text/javascript">
+	$(function() {
+		removeNavActive();
+		$("#nav_music").addClass("active");
+		
+		var w = document.documentElement.clientWidth;
+	    var h = document.documentElement.clientHeight;
+		var height = h-52;
+		lyric.setAttribute("style", "height: "+ (height-60) +"px; overflow: hidden; overflow-y:auto; overflow-x:auto;");
+		content.setAttribute("style", "height: "+ height +"px; overflow: hidden; overflow-y:auto; overflow-x:auto; margin: 0px;");
+		left.setAttribute("style", "height: "+ height +"px;");
+    });
+    
+    //监听浏览器变化
+    window.onresize = function() {
+	    var w = document.documentElement.clientWidth;
+	    var h = document.documentElement.clientHeight;
+		var height = h-52;
+		lyric.setAttribute("style", "height: "+ (height-60) +"px; overflow: hidden; overflow-y:auto; overflow-x:auto;");
+		content.setAttribute("style", "height: "+ height +"px; overflow: hidden; overflow-y:auto; overflow-x:auto; margin: 0px;");
+		left.setAttribute("style", "height: "+ height +"px;");
+	}
+    
+	function song_active(id) {
+		//取消已经选中的歌曲
+		var song = document.getElementsByClassName("song_active");
+   		for(n = 0; n < song.length; n++) {
+			song[n].setAttribute("class", "");
+		}
+		//歌曲选中状态
+    	var song_id = document.getElementById(id);
+    	song_id.setAttribute("class", "song_active");
+	}
+	
+	//解析歌词文件
+    function parseLyric(text) {
+	    //将文本分隔成一行一行，存入数组
+	    var lines = text.split('\n'),
+        //用于匹配时间的正则表达式，匹配的结果类似[xx:xx.xx]
+        pattern = /\[\d{2}:\d{2}.\d{2}\]/g,
+        //保存最终结果的数组
+        result = [];
+	    //去掉不含时间的行
+	    while (!pattern.test(lines[0])) {
+	        lines = lines.slice(1);
+	    };
+	    //上面用'\n'生成生成数组时，结果中最后一个为空元素，这里将去掉
+	    lines[lines.length - 1].length === 0 && lines.pop();
+	    lines.forEach(function(v /*数组元素值*/ , i /*元素索引*/ , a /*数组本身*/ ) {
+	        //提取出时间[xx:xx.xx]
+	        var time = v.match(pattern),
+            //提取歌词
+            value = v.replace(pattern, '');
+	        //因为一行里面可能有多个时间，所以time有可能是[xx:xx.xx][xx:xx.xx][xx:xx.xx]的形式，需要进一步分隔
+	        time.forEach(function(v1, i1, a1) {
+	            //去掉时间里的中括号得到xx:xx.xx
+	            var t = v1.slice(1, -1).split(':');
+	            //将结果压入最终数组
+	            result.push([parseInt(t[0], 10) * 60 + parseFloat(t[1]), value]);
+	        });
+	    });
+	    //最后将结果数组中的元素按时间大小排序，以便保存之后正常显示歌词
+	    result.sort(function(a, b) {
+	        return a[0] - b[0];
+	    });
+	    return result;
+	}
+    
+    var textLrc;
+    var lyricArea = $("#lyric");
+    function music(id, url) {
+    	//显示
+		$('#loading').modal('show');
+    	//歌曲选中
+    	song_active(id);
+		
+		//默认歌词
+    	textLrc = [[0, "暂无歌词"]];
+    	
+		//获取音乐
+		$("#music").attr("src", url);
+		var audio = document.getElementById('audio');
+		audio.load();
+		
+		//获取歌词
+		var lrcUrl = url.replace("single", "lrc").replace(".mp3", ".lrc");
+		$.ajax({
+			type : "get",
+			url : lrcUrl,
+			async: false, 
+			success: function(data){
+				if(data.length > 0) {
+					textLrc = parseLyric(data);
+				}
+			}
+		});
+		
+		//清空页面歌词
+		$("#lyric").empty();
+		
+		//添加页面歌词
+		for (i = 0; i < textLrc.length; i++) {
+			var lrc = textLrc[i][1];
+			if(lrc.length == "") {
+				lrc = "...";
+			}
+            $("#lyric").append("<li id="+ i +" class='lrc'>"+ lrc + "</li>");
+	    };
+	    
+	    //滚动条置为0
+	    lyricArea.stop().animate({scrollTop: 0}, 1000);
+	};
+	
+	//改变歌词
+	var list = [];
+	var bool = -1;
+    function changeLrc(audio) {
+    	/*当前播放的时间*/
+    	var time = audio.currentTime;
+    	var num = time.toFixed(2);
+    	
+    	var lrcId = 0;
+    	for (i = 0; i < textLrc.length; i++) {
+    		if(num >= textLrc[i][0]) {
+    			lrcId = i;
+    		}
+    	}
+    	
+    	if(bool != lrcId) {
+    		bool = lrcId;
+    		var lrc = document.getElementsByClassName("lrc-play");
+	   		for(n = 0; n < lrc.length; n++) {
+				lrc[n].setAttribute("class", "lrc");
+			}
+	    	
+			var lrcPlay = document.getElementById(lrcId);
+			lrcPlay.setAttribute("class", "lrc-play");
+			
+			if(lrcId > 5) {
+				var row = bool - 5;
+				var scroll = (lyricArea.children().height() * row) - ($("#lyric_content").height() / 2);  
+    			lyricArea.stop().animate({scrollTop: scroll}, 1000);
+			}
+    	}
+    	
+	}
+	
+	function music_onplay() {
+		$('#loading').modal('hide');
+	}
+</script>
+</html>

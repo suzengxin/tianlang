@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>首页_天狼云</title>
+	
+	<!-- jQuery(Bootstrap的JavaScript插件需要引入jQuery，务必在bootstrap.min.js之前引入) -->
+	<script src="https://suzengxin.github.io/static/jquery-3.5.1.min.js"></script>
+	
+	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" data-integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" data-crossorigin="anonymous">
+	
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" data-integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" data-crossorigin="anonymous"></script>
+	
+	<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" data-integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" data-crossorigin="anonymous">
+	
+	<link href="https://suzengxin.github.io/static/common.css" rel='stylesheet' type='text/css' />
+	<script src="https://suzengxin.github.io/static/common.js"></script>
+
+	<!-- 图标 -->
+	<link rel="shortcut icon" href="https://suzengxin.github.io/images/favicon.ico">  
+	<link rel="Bookmark" href="https://suzengxin.github.io/images/favicon.ico">
+	
+	<link rel="stylesheet" type="text/css" href="https://suzengxin.github.io/static/font-family_tangerine.woff2">
+</head>
+
+<body>
+<div class="container-fluid">
+	<!-- 导航 -->
+	<div id="nav_load" class="navbar navbar-inverse" role="navigation" style="margin: 0px;"></div>
+
+	<div id="content">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="container-fluid">
+					<div id="logo" class="jumbotron">
+						<h1 class="text-center"><a href="/">天狼云<span>首页</span></a></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="row">
+			<div id="photo" class="col-xs-12 col-sm-offset-1 col-sm-2" style="margin-bottom:10px;">
+				<img src="https://suzengxin.github.io/images/photo.jpg" style="margin-top:5px;" class="img-circle img-responsive" alt="Loading...">
+				<div class="text-center" style="color: white; font-size: 2em; font-family: 'Tangerine', serif;">
+					<p>陌上颜如玉</p>
+					<p>公子世无双</p>
+				</div>
+			</div>
+			
+			<div class="col-xs-8 col-xs-offset-1 col-sm-8" style="font-family: 'Tangerine', serif;">
+			    <a href="/music"><button type="button" class="btn btn-primary btn-lg">音乐</button></a>
+			    <a href="/book"><button type="button" class="btn btn-primary btn-lg">书籍</button></a>
+			    <a href='http://www.tianlangcloud.com:8080' target='_blank'><button type="button" class="btn btn-primary btn-lg">网盘</button></a>
+			</div>
+		</div>
+	</div>
+	
+	<div id="footer_load" class="footer text-center" style="margin-top: 10px;"></div>
+</div>
+
+</body>
+
+<style>
+	#photo {
+		background: rgba(0, 0, 0, 0.1);
+	}
+</style>
+
+<script type="text/javascript">
+	$(function(){
+		removeNavActive();
+		$("#nav_home").addClass("active");
+		var w = document.documentElement.clientWidth;
+		var h = document.documentElement.clientHeight;
+		if(w > 767) {
+			var height = h-53;
+			content.setAttribute("style", "height: "+ height +"px;");
+		} else {
+			content.setAttribute("style", "");
+		}
+	})
+	
+	//监听浏览器变化
+    window.onresize = function() {
+	    var w = document.documentElement.clientWidth;
+		var h = document.documentElement.clientHeight;
+		if(w > 767) {
+			var height = h-53;
+			content.setAttribute("style", "height: "+ height +"px;");
+		} else {
+			content.setAttribute("style", "");
+		}
+	}
+</script>
+</html>

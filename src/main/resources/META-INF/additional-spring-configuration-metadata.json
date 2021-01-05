@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "path",
+    "type": "java.lang.String",
+    "description": "A description for 'path'"
+  },
+  {
+    "name": "path.home",
+    "type": "java.lang.String",
+    "description": "A description for 'path.home'"
+  },
+  {
+    "name": "system",
+    "type": "java.lang.String",
+    "description": "A description for 'system'"
+  },
+  {
+    "name": "system.music.path",
+    "type": "java.lang.String",
+    "description": "A description for 'system.music.path'"
+  },
+  {
+    "name": "system.book.path",
+    "type": "java.lang.String",
+    "description": "A description for 'system.book.path'"
+  }
+]}

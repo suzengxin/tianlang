@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>${book}_天狼云书籍</title>
+	
+	<!-- jQuery(Bootstrap的JavaScript插件需要引入jQuery，务必在bootstrap.min.js之前引入) -->
+	<script src="https://suzengxin.github.io/static/jquery-3.5.1.min.js"></script>
+	
+	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" data-integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" data-crossorigin="anonymous">
+	
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" data-integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" data-crossorigin="anonymous"></script>
+	
+	<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" data-integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" data-crossorigin="anonymous">
+	
+	<link href="https://suzengxin.github.io/static/common.css" rel='stylesheet' type='text/css' />
+	<script src="https://suzengxin.github.io/static/common.js"></script>
+
+	<!-- 图标 -->
+	<link rel="shortcut icon" href="https://suzengxin.github.io/images/favicon.ico">  
+	<link rel="Bookmark" href="https://suzengxin.github.io/images/favicon.ico">
+</head>
+<body>
+<div class="container-fluid">
+	<!-- 导航 -->
+	<div id="nav_load" class="navbar navbar-inverse" role="navigation" style="margin: 0px;"></div>
+	
+	<!-- logo -->
+	<div class="jumbotron">
+		<div id="logo">
+			<h1 class="text-center"><a href="/book">天狼云<span>文库</span></a></h1>
+			<h3 class="text-center">
+				<a href="/book/${author}/${book}" style="text-decoration: none; color: black;">${book}</a>  <small><a href="/book/${author}" style="text-decoration: none; color: black;">${author}</a></small>
+			</h3>
+			<p class="text-center hidden-xs hidden-sm">
+				<button onclick="themeShow()" class="btn btn-md">修改字体背景</button>
+			</p>
+		</div>
+	</div><!-- logo END -->
+	
+	<div class="row" id="main" style="margin:0px 1px 20px 1px;">
+		<div class="col-xs-12 col-md-10 col-md-offset-1">
+			<h3 style="margin-top: 20px;margin-bottom: 20px;text-align: center;">${node?split("__")[1]}</h3>
+			<div class="lead" id="content">${content}</div>
+			<div class="row">
+				<div class="col-xs-4" style="text-align: center;">
+					<button type="button" class="btn-sm btn-primary" onclick="page('/book/${author}/${book}/${prev}')">上一章</button>
+				</div>
+				<div class="col-xs-4" style="text-align: center;">
+					<button type="button" class="btn-sm btn-primary" onclick="page('/book/${author}/${book}')">目录</button>
+				</div>
+				<div class="col-xs-4" style="text-align: center;">
+					<button type="button" class="btn-sm btn-primary" onclick="page('/book/${author}/${book}/${next}')">下一章</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--footer--->
+	<div id="footer_load" class="footer text-center"></div>
+	
+	<!-- 菜单章节跳转按钮 -->
+	<div id="leftButton" style="display: none;width: 15%;height: 15%;z-index:1;position: fixed;bottom: 40%;left: 0px;">
+		<button onclick="page('/book/${author}/${book}/${prev}')" class="btn btn-sm btn-primary btn-block">
+			<p>上</p><br><p>一</p><br><p>章</p>
+		</button>
+	</div>
+	<div id="rightButton" style="display: none;width: 15%;height: 15%;z-index:1;position: fixed;bottom: 40%;right: 0px;">
+		<button onclick="page('/book/${author}/${book}/${next}')" class="btn btn-sm btn-primary btn-block">
+			<p>下</p><br><p>一</p><br><p>章</p>
+		</button>
+	</div>
+	
+	<!-- 菜单主题 -->
+	<div id="theme" style="display: none;background-color: black;width: 100%;height: 25%;z-index:1;position: fixed;bottom: 0px;">
+		<div id="size_div" class="row" style="margin-top: 3%;">
+			<div class="col-xs-4 col-xs-offset-1">
+				<button onclick="changeFontSize('-')" class="btn btn-sm btn-primary btn-block">A-</button>
+			</div>
+			<div class="col-xs-2">
+				<p id="size" class="text-center" style="color: white;font-size: 20px;">22</p>
+			</div>
+			<div class="col-xs-4">
+				<button onclick="changeFontSize('+')" class="btn btn-sm btn-primary btn-block">A+</button>
+			</div>
+			<div class="col-xs-1 hidden-xs hidden-sm">
+				<button onclick="themeHide()" style="color: white;background-color: black;border: none;">
+					<span class="glyphicon glyphicon-remove"></span>
+				</button>
+			</div>
+		</div> 
+		<div id="color_one" class="row" style="margin-top: 2%;">
+			<div class="col-xs-3 col-xs-offset-1">
+				<button onclick="changeColor('FFFFFF')" style="background-color: #FFFFFF;color: black;" class="btn btn-sm btn-block">白色</button>
+			</div>
+			<div class="col-xs-4">
+				<button onclick="changeColor('C7EDCC')" style="background-color: #C7EDCC;color: black;" class="btn btn-sm btn-block">护眼</button>
+			</div>
+			<div class="col-xs-3">
+				<button onclick="changeColor('333333')" style="background-color: #333333;color: white;" class="btn btn-sm btn-block">夜间</button>
+			</div>
+		</div> 
+		<div id="color_two" class="row" style="margin-top: 1%;">
+			<div class="col-xs-3 col-xs-offset-1">
+				<button onclick="changeColor('FAF9DE')" style="background-color: #FAF9DE;color: black;" class="btn btn-sm btn-block">杏仁黄</button>
+			</div>
+			<div class="col-xs-4">
+				<button onclick="changeColor('FFF2E2')" style="background-color: #FFF2E2;color: black;" class="btn btn-sm btn-block">秋叶褐</button>
+			</div>
+			<div class="col-xs-3">
+				<button onclick="changeColor('FDE6E0')" style="background-color: #FDE6E0;color: black;" class="btn btn-sm btn-block">胭脂红</button>
+			</div>
+		</div> 
+		<div id="color_three" class="row" style="margin-top: 1%;">
+			<div class="col-xs-3 col-xs-offset-1">
+				<button onclick="changeColor('E3EDCD')" style="background-color: #E3EDCD;color: black;" class="btn btn-sm btn-block">青草绿</button>
+			</div>
+			<div class="col-xs-4">
+				<button onclick="changeColor('DCE2F1')" style="background-color: #DCE2F1;color: black;" class="btn btn-sm btn-block">海天蓝</button>
+			</div>
+			<div class="col-xs-3">
+				<button onclick="changeColor('E9EBFE')" style="background-color: #E9EBFE;color: black;" class="btn btn-sm btn-block">葛巾紫</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<style type="text/css">
+	.content{
+		text-indent:2em;
+		font-size: 22px;
+	}
+	.btn:hover{
+		box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.6) inset;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+		removeNavActive();
+		$("#nav_book").addClass("active");
+		loadSize();
+		loadColor();
+	});
+	
+	function page (url){
+		location = url;
+	};
+	
+	document.addEventListener('touchstart', touch, false);
+    function touch (event){
+        var event = event || window.event;
+      	//获取点击屏幕x坐标
+		var x = event.touches[0].clientX;
+		//获取点击屏幕y坐标
+		var y = event.touches[0].clientY;
+		//获取浏览器宽度
+		var w = document.documentElement.clientWidth;
+		//获取浏览器高度
+		var h = document.documentElement.clientHeight;
+		
+		//设置点击区域
+		var wx1 = w / 2 - w * 0.1;
+		var wx2 = w / 2 + w * 0.1;
+		var hy1 = h / 2 - h * 0.1;
+		var hy2 = h / 2 + h * 0.1;
+		if (wx1 <= x && x <= wx2 && hy1 <= y && y <= hy2) {
+			//alert("w="+w+"h="+h+"x="+x+"y="+y);
+			var text = $('#theme').css("display");
+			if(text=="none"){
+				$('#theme').show();
+				$('#leftButton').show();
+				$('#rightButton').show();
+			} else {
+				$('#theme').hide();
+				$('#leftButton').hide();
+				$('#rightButton').hide();
+			}
+		} else if ( y <= h * 0.75) {
+			
+			var wl = w*0.15;
+			var wr = w*0.85;
+			
+			var h1 = h*0.45;//按钮上顶点
+			var h2 = h * 0.6;//按钮下顶点
+			
+			if(!(h1<=y&&y<=h2&&x<=wl) && !(h1<=y&&y<=h2&&x>=wr)){
+				$('#theme').hide();
+				$('#leftButton').hide();
+				$('#rightButton').hide();
+			}
+			
+		} else {
+			//其他不处理
+		}
+   	}
+    
+    function themeShow(){
+    	$("#size_div").css("margin-top","10px");
+    	$("#color_one").css("margin-top","5px");
+    	$("#color_two").css("margin-top","5px");
+    	$("#color_three").css("margin-top","5px");
+    	$('#theme').show();
+    }
+    
+    function themeHide(){
+    	$('#theme').hide();
+    }
+</script>
+</html>
