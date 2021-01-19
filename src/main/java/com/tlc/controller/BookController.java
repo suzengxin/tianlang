@@ -26,6 +26,29 @@ public class BookController {
 	
 	@Autowired
 	private SystemFactory systemFactory;
+	
+	private List<FileItem> queryFile(String path) {
+		List<FileItem> result = new ArrayList<FileItem>();
+		try {
+			//根据路径获取文件
+			FileService fileService = systemFactory.getFileService(PropertysConfig.SYSTEM);
+			List<FileItem> list = fileService.queryFileItems(path);
+			
+			//获取需要的文件夹
+			for (int i = 0; i < list.size(); i++) {
+				FileItem fileItem = list.get(i);
+				String fileName = fileItem.getName();
+				int length = fileName.length();
+				if (length >= 7 && fileName.substring(0, 3).equals("___")
+						&& fileName.substring(length - 3, length).equals("___")) {
+					result.add(fileItem);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 	/**
 	 * 书籍首页
@@ -36,14 +59,14 @@ public class BookController {
 	public String book(Model model) {
 		try {
 			List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
-			
-			FileService fileService = systemFactory.getFileService(PropertysConfig.SYSTEM);
+			//获取作者列表
 			String path = PropertysConfig.SYSTEM_BOOK_PATH;
-			List<FileItem> list = fileService.queryFileItems(path);
-			for (FileItem fileItem : list) {
+			List<FileItem> authorList = queryFile(path);
+			//获取作者对应的书籍列表
+			for (FileItem fileItem : authorList) {
 				String author = fileItem.getName();
 				String pathUrl = path + "/" + author;
-				List<FileItem> bookList = fileService.queryFileItems(pathUrl);
+				List<FileItem> bookList = queryFile(pathUrl);
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("name", author);
 				map.put("books", bookList);
@@ -65,9 +88,8 @@ public class BookController {
 	@GetMapping("/{author}")
 	public String author(Model model, @PathVariable(value = "author") String author) {
 		try {
-			FileService fileService = systemFactory.getFileService(PropertysConfig.SYSTEM);
 			String path = PropertysConfig.SYSTEM_BOOK_PATH + "/" + author;
-			List<FileItem> list = fileService.queryFileItems(path);
+			List<FileItem> list = queryFile(path);
 			model.addAttribute("books", list);
 			model.addAttribute("author", author);
 		} catch (Exception e) {
