@@ -34,30 +34,28 @@
 	<!-- 导航 -->
 	<div id="nav_load" class="navbar navbar-inverse" role="navigation" style="margin: 0px;"></div>
 
+	<p class="hidden-xs" id="text-title-cj">嗨！<br>在美好的未来里<br>等你</p>
+
 	<div id="content">
 		<div class="row">
-			<div class="col-xs-12">
-				<div class="container-fluid">
-					<div id="logo" class="jumbotron">
-						<h1 class="text-center"><a href="/">天狼云<span>首页</span></a></h1>
+			<div class="col-xs-10 col-xs-offset-1">
+				<p class="text-center" id="logo">天狼云</p>
+				
+				<p class="visible-lg" id="text-title-st">傷痛誰能懂</p>
+				
+				<#list poetrys as poetry>
+					<div class="text-center content">
+						<#if poetry.NAME ??>
+							<h4 class="poetry-name">${poetry.NAME}</h4>
+						</#if>
+						<ul class="list-unstyled">
+							<#list poetry.CONTENT as content>
+								<li>${content.CONTENT ! ""}</li>
+							</#list>
+						</ul>
 					</div>
-				</div>
-			</div>
-		</div>
-	
-		<div class="row">
-			<div id="photo" class="col-xs-12 col-sm-offset-1 col-sm-2" style="margin-bottom:10px;">
-				<img src="https://suzengxin.github.io/images/photo.jpg" style="margin-top:5px;" class="img-circle img-responsive" alt="Loading...">
-				<div class="text-center" style="color: white; font-size: 2em; font-family: 'Tangerine', serif;">
-					<p>陌上颜如玉</p>
-					<p>公子世无双</p>
-				</div>
-			</div>
-			
-			<div class="col-xs-8 col-xs-offset-1 col-sm-8" style="font-family: 'Tangerine', serif;">
-			    <a href="/music"><button type="button" class="btn btn-primary btn-lg">音乐</button></a>
-			    <a href="/book"><button type="button" class="btn btn-primary btn-lg">书籍</button></a>
-			    <a href='http://www.tianlangcloud.com:8080' target='_blank'><button type="button" class="btn btn-primary btn-lg">网盘</button></a>
+				</#list>
+				
 			</div>
 		</div>
 	</div>
@@ -68,35 +66,158 @@
 </body>
 
 <style>
-	#photo {
-		background: rgba(0, 0, 0, 0.1);
+	.content {
+		padding-top: 6vh;
+		padding-bottom: 6vh;
+		border-bottom: 1px dashed red;
 	}
+	
+	#logo {
+		color: #000000;
+		font-size: 6vw;
+		font-weight: 700;
+		text-shadow: 0px 0px 5px red;
+		background-image: linear-gradient(90deg, Cyan 0%, Magenta 50%, Yellow 100%);
+		background-clip: border-box;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		box-sizing: border-box;
+	    vertical-align: inherit;
+	    animation: logo-animation 1s infinite linear;
+	}
+	
+	@keyframes logo-animation {
+	    0% {
+	        opacity: 1;
+	    	transform: scale(1);
+	        filter: hue-rotate(-360deg);
+	    }
+	    25% {
+	    	opacity: .8;
+	    	transform: scale(.8);
+	    }
+	    
+	    50% {
+	    	opacity: .6;
+	    	transform: scale(.6);
+	    }
+	    
+	    75% {
+	    	opacity: .8;
+	    	transform: scale(.8);
+	    }
+	    100% {
+	    	opacity: 1;
+	    	transform: scale(1);
+	    	filter: hue-rotate(360deg);
+	    }
+    }
+	
+	.poetry-name {
+		color: #000000;
+		font-size: 3vw;
+		font-weight: 700;
+		text-shadow: 0px 0px 5px white;
+		background-image: linear-gradient(90deg, Cyan 0%, Magenta 50%, Yellow 100%);
+		background-clip: border-box;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		box-sizing: border-box;
+	    vertical-align: inherit;
+	    animation: content-animation 1s infinite linear;
+	}
+	
+	.list-unstyled {
+		color: #000000;
+		font-size: 2vw;
+		font-weight: 700;
+		text-shadow: 0px 0px 5px white;
+		background-image: linear-gradient(90deg, Cyan 0%, Magenta 50%, Yellow 100%);
+		background-clip: border-box;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		box-sizing: border-box;
+	    vertical-align: inherit;
+	    animation: content-animation 1s infinite linear;
+	}
+	
+	@keyframes content-animation{
+	    0% {
+	    	filter: hue-rotate(-360deg);
+	    }
+	    100% {
+	    	filter: hue-rotate(360deg);
+	    }
+	}
+	
+	#text-title-cj {
+		color: #999999;
+		font-size: 1vw;
+		text-shadow: 0px 0px 5px white;
+		background-image: linear-gradient(90deg, Cyan 0%, Magenta 50%, Yellow 100%);
+		background-clip: border-box;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		box-sizing: border-box;
+	    vertical-align: inherit;
+	    animation: content-animation 1s infinite linear;
+	    
+	    position: absolute;
+	    left: 3vw;
+	    top: 8vw;
+        transform: rotate(-10deg);
+	}
+	
+	#text-title-st {
+		color: #000000;
+		font-size: 2vw;
+		font-weight: 700;
+		animation: uk-text-shadow-glitch .65s cubic-bezier(1,-1.91,0,2.79) 0s infinite normal both running;
+		
+		position: fixed;
+		right: 10vw;
+        transform: rotate(30deg);
+	}
+	
+	@keyframes uk-text-shadow-glitch {
+		0% {
+	        text-shadow: none;
+	    }
+	    25% {
+	        text-shadow: -2px -2px 0 red, 2px 2px 0 #3234ff;
+	    }
+	    50% {
+	        text-shadow: 2px 2px 0 red, -2px 2px 0 #3234ff;
+	    }
+	    75% {
+	        text-shadow: -2px -2px 0 red, 2px -2px 0 #3234ff;
+	    }
+	    100% {
+	        text-shadow: 2px 2px 0 red, -2px -2px 0 #3234ff;
+	    }
+	}
+	
 </style>
 
 <script type="text/javascript">
 	$(function(){
+		$("body").css("background-image", "none");
+		$("body").css("background-color", "black");
+		
 		removeNavActive();
 		$("#nav_home").addClass("active");
+		
 		var w = document.documentElement.clientWidth;
 		var h = document.documentElement.clientHeight;
-		if(w > 767) {
-			var height = h-53;
-			content.setAttribute("style", "height: "+ height +"px;");
-		} else {
-			content.setAttribute("style", "");
-		}
+		//w > 767; var height = h-53;
+		//content.setAttribute("style", "height: "+ height +"px;");
 	})
 	
 	//监听浏览器变化
     window.onresize = function() {
 	    var w = document.documentElement.clientWidth;
 		var h = document.documentElement.clientHeight;
-		if(w > 767) {
-			var height = h-53;
-			content.setAttribute("style", "height: "+ height +"px;");
-		} else {
-			content.setAttribute("style", "");
-		}
 	}
+	
 </script>
 </html>

@@ -1,5 +1,8 @@
 package com.tlc.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +32,12 @@ public class WebController {
 	 */
 	@GetMapping("/")
 	public String index(Model model) {
+		try {
+			List<Map<String, Object>> result = h2Service.loadPoetry();
+			model.addAttribute("poetrys", result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "index";
 	}
 	

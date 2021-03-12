@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="zh">
 <head>
 	<meta charset="UTF-8">
@@ -155,6 +155,9 @@
 	$(function(){
 		removeNavActive();
 		$("#nav_home").addClass("active");
+		var h = document.documentElement.clientHeight;
+		var height = h-52;
+		content.setAttribute("style", "height: "+ height +"px;");
 	})
 	
 	//回车事件

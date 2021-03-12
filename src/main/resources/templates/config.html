@@ -147,6 +147,10 @@
 		$("#myAlert").bind('closed.bs.alert', function () {
 			location.href = "/config";
 		});
+		
+		var h = document.documentElement.clientHeight;
+		var height = h-52;
+		content.setAttribute("style", "height: "+ height +"px;");
 	})
 	
 	//居中模态框
